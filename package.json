@@ -1,0 +1,29 @@
+{
+    "name": "youtube",
+    "version": "1.0.0",
+    "description": "youtube clone code",
+    "scripts": {
+        "go": "node index.js",
+        "dev": "babel-node index.js",
+        "nodemon": "nodemon --exec babel-node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Dabiny/youtube.git"
+    },
+    "author": "TEEMO",
+    "license": "MIT  ",
+    "bugs": {
+        "url": "https://github.com/Dabiny/youtube/issues"
+    },
+    "homepage": "https://github.com/Dabiny/youtube#readme",
+    "dependencies": {
+        "express": "^4.18.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.21.0",
+        "@babel/node": "^7.20.7",
+        "@babel/preset-env": "^7.20.2",
+        "nodemon": "^2.0.21"
+    }
+}
