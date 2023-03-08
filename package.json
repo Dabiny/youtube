@@ -3,16 +3,16 @@
     "version": "1.0.0",
     "description": "youtube clone code",
     "scripts": {
-        "go": "node index.js",
-        "dev": "babel-node index.js",
-        "nodemon": "nodemon --exec babel-node index.js"
+        "go": "node src/server.js",
+        "dev": "babel-node src/server.js",
+        "nodemon": "nodemon --exec babel-node src/server.js"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Dabiny/youtube.git"
     },
     "author": "TEEMO",
-    "license": "MIT  ",
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/Dabiny/youtube/issues"
     },
