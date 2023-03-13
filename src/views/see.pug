@@ -1,6 +1,7 @@
 extends base.pug
 
 block content 
-    h1 WatchVideo! #{potato}
-
-
+    h3 #{video.views} #{video.views in [0, 1] ? "view" : "views"}
+    a(href=`${video.id}/edit`) Edit video &rarr;
+//- 앞머리 부분에 /를 넣으면 내가 어디에있는 상관없이 root + /edit으로간다. 
+//- /를 지우면 상대적으로 내가 있는 곳에서 edit으로 간다.

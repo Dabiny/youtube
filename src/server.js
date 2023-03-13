@@ -1,6 +1,10 @@
 // node_modules에서 찾아서 가져온다. 
+import "./db";
+import "./models/Video";
+
 import express from "express";
 import morgan from "morgan";
+
 import globalRouter from "./routers/globalRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
@@ -8,7 +12,7 @@ import videoRouter from "./routers/videoRouter";
 // application 생성
 const app = express();
 const loggerMiddleware = morgan("dev");
-app.use(loggerMiddleware);
+
 
 console.log(process.cwd());
 
@@ -25,8 +29,13 @@ console.log(process.cwd());
 // const handleWatchVideo = (req, res) => res.send("Watch video");
 // videoRouter.get("/watch", handleWatchVideo);
 
+// 미들웨어 위치 중요하다. 위에서 아래로 
 app.set("views", process.cwd() + "/src/views");
 app.set("view engine", "pug"); // pug 설정
+app.use(loggerMiddleware);
+
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/", globalRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);

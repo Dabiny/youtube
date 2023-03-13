@@ -1,0 +1,17 @@
+extends base.pug
+
+block content 
+    h5 Change title of video
+    form(method="POST")
+        input(name="potato" placeholder="new Title",value=video.title,required)
+        input(value="Save" type="submit")
+        //- save를 누르면 어딘가로 보내져야한다. action이 어딘가를 정해준다.
+        //- form(action="/edit-blabla")
+
+
+
+//- get, post 차이점
+//- get으로 save를누르게되면 input name이 url에 포함되어진다. 검색할때 쓰임.
+//- 그리고 그냥 데이터를 받는게 목적이면 get 사용
+//- post방식은 파일을 보내거나, database에 있는 값을 바꾸는 뭔가를 보낼때 사용한다.
+//- website에 로그인할 때도 post를 사용한다. 왜냐하면 get으로 보내면 url에 아뒤비번이 다뜸..
