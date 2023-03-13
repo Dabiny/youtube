@@ -1,8 +1,13 @@
-doctype html 
-html(lang="ko")
-    head 
-        title wetube 
-    body 
-        h1 Welcome to Wetube 
-        footer &copy; 2023 wetube 
+extends base.pug
+include mixins/videos
 
+block content 
+    h1 Home!
+    h2 Welcome my youtube video
+    ul
+        each iter in videos
+            +video(iter)
+        else 
+            li Sorry nothing found.
+    input(placeholder="HWOW")
+    button yes

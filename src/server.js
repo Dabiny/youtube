@@ -25,6 +25,7 @@ console.log(process.cwd());
 // const handleWatchVideo = (req, res) => res.send("Watch video");
 // videoRouter.get("/watch", handleWatchVideo);
 
+app.set("views", process.cwd() + "/src/views");
 app.set("view engine", "pug"); // pug 설정
 app.use("/", globalRouter);
 app.use("/videos", videoRouter);
