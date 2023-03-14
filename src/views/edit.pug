@@ -3,10 +3,12 @@ extends base.pug
 block content 
     h5 Change title of video
     form(method="POST")
-        input(name="potato" placeholder="new Title",value=video.title,required)
+        input(name="title" placeholder="Title", required, type="text", maxLengh=80, value=video.title)
+        input(name="description" placeholder="Description", required, type="text", minLength=20, value=video.description)
+        input(name="hashtags" placeholder="Hashtags, separated by comma.", required, type="text", value=video.hashtags.join())
         input(value="Save" type="submit")
-        //- save를 누르면 어딘가로 보내져야한다. action이 어딘가를 정해준다.
-        //- form(action="/edit-blabla")
+//- save를 누르면 어딘가로 보내져야한다. action이 어딘가를 정해준다.
+//- form(action="/edit-blabla")
 
 
 
