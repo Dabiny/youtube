@@ -5,7 +5,7 @@
     "scripts": {
         "go": "node src/server.js",
         "dev": "babel-node src/server.js",
-        "nodemon": "nodemon --exec babel-node src/server.js"
+        "nodemon": "nodemon --exec babel-node src/init.js"
     },
     "repository": {
         "type": "git",
