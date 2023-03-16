@@ -1,6 +1,7 @@
+
 import mongoose from "mongoose";
-// 
-mongoose.connect("mongodb://127.0.0.1:27017/wetube", {
+//
+mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -14,4 +15,3 @@ db.on("error", (err) => console.log("DB Error", err));
 db.once("open", handleOpen);
 
 // 우리의 db를 만든 목표 CRUD : C(create), R(read), U(update), D(delete)
-
