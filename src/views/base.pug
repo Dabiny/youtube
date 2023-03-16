@@ -9,10 +9,20 @@ html(lang="ko")
             h1=pageTitle
             nav
                 ul 
+                    if !loggedIn
+                        li 
+                            a(href="/join") Join
+                        li 
+                            a(href="/login") Login
+                    else
+                        li 
+                            a(href="/logout") Logout
+                        li 
+                            a(href="/my-profile") #{loggedInUser.username} profile
                     li 
                         a(href="/videos/upload") Upload Video
                     li 
-                        a(href="/videos/watch") go home
+                        a(href="/") go home
                     li 
                         a(href="/search") go Search
         main 

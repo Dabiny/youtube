@@ -35,12 +35,6 @@ videoSchema.static("formatHashtags", function (hashtags) {
         .map((word) => (word.startsWith("#") ? word : `#${word}`));
 });
 
-// videoSchema.pre("save", async function () {
-//     console.log(this);
-//     this.hashtags = this.hashtags[0]
-//         .split(",")
-//         .map((word) => (word.startsWith("#") ? word : `#${word}`));
-// });
 
 // model 정의
 

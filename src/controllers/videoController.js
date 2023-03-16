@@ -9,7 +9,7 @@ export const watchVideos = async (req, res) => {
     // async/await 버전
     try {
         const videos = await Video.find({}).sort({ createdAt: "desc" }); // asc오름차순
-        console.log(videos);
+        //console.log(videos);
         return res.render("home", {
             pageTitle: "Home", // 변수 재정의
             fakeUser: fakeUser,
@@ -39,6 +39,7 @@ export const getEdit = async (req, res) => {
         video: video,
     });
 };
+
 export const see = async (req, res) => {
     const { id } = req.params;
     //mongoose.findById()로 특정데이터를 찾아보자
@@ -63,7 +64,7 @@ export const postEdit = async (req, res) => {
     const { title, description, hashtags } = req.body;
     const video = await Video.exists({ _id: id });
     if (!video) {
-        return res.render("404", {
+        return res.sataus(404).render("404", {
             pageTitle: "Video not found. 404",
         });
     }
@@ -103,7 +104,7 @@ export const deleteVideo = async (req, res) => {
     const { id } = req.params;
     const video = await Video.exists({ _id: id });
     if (!video) {
-        return res.render("404", {
+        return res.status(404).render("404", {
             pageTitle: "Video not found. 404",
         });
     }
@@ -111,7 +112,7 @@ export const deleteVideo = async (req, res) => {
     // delete권장. remove는 mongoDB데이터를 다시되돌릴수 없기 때문에 remove보단 delete쓰란말.
     await Video.findByIdAndDelete(id);
 
-    return res.redirect("/videos/watch");
+    return res .redirect("/videos/watch");
 };
 
 export const getUpload = (req, res) => {
@@ -154,7 +155,7 @@ export const postUpload = async (req, res) => {
         return res.redirect("/videos/watch");
     } catch (error) {
         console.log(error);
-        return res.render("upload", {
+        return res.status(400).render("upload", {
             pageTitle: "Upload Video",
             errorMessage: error._message,
         });
