@@ -122,6 +122,8 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
+    // es6 정의방법
+    const { path: fileUrl } = req.file;
     const { title, description, hashtags } = req.body;
 
     // 방법 1.
@@ -151,6 +153,7 @@ export const postUpload = async (req, res) => {
             // 수정할때의 form은 업로드 form과 생긴건 똑같지만 다르다.
             // 또 새러운 hashtag가 생길텐데 그거에대한 대응을 해줘야한다. (나중에 설명)
             hashtags: Video.formatHashtags(hashtags),
+            fileUrl: fileUrl,
         });
         return res.redirect("/videos/watch");
     } catch (error) {

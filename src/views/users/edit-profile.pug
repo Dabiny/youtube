@@ -1,0 +1,19 @@
+extends ../base.pug
+
+block content 
+
+    if errorMessage 
+        span=errorMessage
+    //- 우리 form이 다르게 encode될 거란 의미 (multer사용법), 파일을 백엔드로 보내기 위해 필요한 encoding type
+    img(src="/" + loggedInUser.avatarUrl, width="100" height="100")
+    form(method="POST" enctype="multipart/form-data")
+        label(for="avatar") Avatar
+        input(placeholder="avatar" id="avatar" name="avatar" type="file" accept="image/*" value=loggedInUser.avaterUrl)
+        //- local 변수 활용
+        input(placeholder="email" type="email" name="email", required, value=loggedInUser.email)
+        input(placeholder="username" name="username" type="text" required value=loggedInUser.username)
+        input(placeholder="name" name="name" type="text" required value=loggedInUser.name)
+        input(type="submit" value="Update Profile")
+        if !loggedInUser.githubLoginOnly
+            hr
+            a(href="change-password") Change Password &rarr;

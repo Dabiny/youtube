@@ -18,6 +18,7 @@ const videoSchema = new mongoose.Schema({
         trim: true,
         maxLength: 80,
     },
+    fileUrl: {type: String, required: true},
     description: { type: String, required: true, trim: true, minLength: 20 },
     // mongoose는 내가 새로운 video를 생성했을때만 실행시킬것임. (Date.now)
     createdAt: { type: Date, required: true, default: Date.now },

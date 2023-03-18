@@ -13,9 +13,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre("save", async function () {
     // this.password를 5번 해싱한다.
-    console.log(this.password);
     this.password = await bcrypt.hash(this.password, 5);
-    console.log(this.password);
 });
 
 const User = mongoose.model("User", userSchema);

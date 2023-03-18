@@ -52,6 +52,8 @@ app.use(localsMiddleware);
 //     return res.send(`${req.session.id}\n${req.session.potato}`);
 // })
 
+// 폴더를 가지고 그 폴더를 브라우저에게 노출시키기 static 사용
+app.use("/uploads", express.static("uploads"));
 app.use("/", globalRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);

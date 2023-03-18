@@ -2,7 +2,117 @@ import User from "../models/User";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
-export const editUser = (req, res) => res.send("Join");
+export const getChangePassword = (req, res) => {
+    // 비번병경 방법1
+    if (req.session.user.githubLoginOnly === true) {
+        return res.redirect("/");
+    }
+    return res.render("users/change-password", {
+        pageTitle: "Change password",
+    });
+};
+export const postChangePassword = async (req, res) => {
+    // send notification
+    const {
+        session: {
+            user: { _id, password },
+        },
+        body: { oldPassword, newPassword, confirmPassword },
+    } = req;
+    // 1 비번확인
+    if (newPassword !== confirmPassword) {
+        return res.status(400).render("users/change-password", {
+            pageTitle: "Change password",
+            errorMessage: "The password does not match the new Password",
+        });
+    }
+    // 2 기존비번 맞는지 확인
+    const ok = await bcrypt.compare(oldPassword, password);
+    if (!ok) {
+        return res.status(400).render("users/change-password", {
+            pageTitle: "Change password",
+            errorMessage: "The current password is incorrect..",
+        });
+    }
+    // 3 userSchma.pre에 해싱함수가 있음. "save"은 create()할때 사용. save()일때도 발동되게하자
+    const user = await User.findById(_id);
+    user.password = newPassword;
+    await user.save(); // proimse 기반 , await 붙여주자
+    req.session.user.password = user.password; // 새로 해싱된함수 세션에 업데이트
+
+    return res.redirect("/users/logout");
+};
+
+export const getEditUser = (req, res) => {
+    return res.render("users/edit-profile", {
+        pageTitle: "Edit profile",
+    });
+};
+export const postEditUser = async (req, res) => {
+    // const { name, email, username, location } = req.body;
+    // const id = req.session.user.id;
+    // 한꺼번에 가져올 수 있는 방법.
+    const {
+        session: {
+            user: {
+                _id,
+                email: sessionEmail,
+                username: sessionUsername,
+                avatarUrl,
+            },
+        },
+        body: { name, email, username },
+        // multer가 생성한 req.file
+        // 파일이 만약 존재하지않으면 file: {path}를 사용할 수없다.
+        file,
+    } = req;
+    console.log("file", file);
+    console.log("avatar", avatarUrl);
+
+    // quiz
+    // 만약 바꾸려는 정보가 이미있는 username, email이면 없데이트 못하도록 예외처리해저야함.
+    if (sessionEmail !== email || sessionUsername !== username) {
+        // 바꾸려는 email, usename 이 존재하는지 확인
+        const emailExists = await User.findOne({ email });
+        const usernameExists = await User.findOne({ username });
+        // db에 존재하는 상황이라면
+        if (emailExists && emailExists._id.toString() !== _id) {
+            return res.render("edit-profile", {
+                errorMessage: "중복된 이메일입니다.",
+            });
+        }
+        if (usernameExists && emailExists._id.toString() !== _id) {
+            return res.render("edit-profile", {
+                errorMessage: "중복된 아이디입니다.",
+            });
+        }
+    }
+
+    // db user Update
+    // new를 붙이면 이전데이터는 필요없고 새로운데이터를 반환시켜주라는 뜻.
+    const updateUser = await User.findByIdAndUpdate(
+        _id,
+        {
+            // undefined 대응
+            avatarUrl: file ? file.path : avatarUrl,
+            name: name,
+            email: email,
+            username: username,
+        },
+        { new: true }
+    );
+
+    // note 참조
+    // req.session.user = {
+    //     ...req.session.user,
+    //     name,
+    //     email,
+    //     username,
+    // };
+    req.session.user = updateUser;
+    return res.redirect("/users/edit");
+};
+
 export const deleteUser = (req, res) => res.send("Join");
 
 export const getLogin = (req, res) => {
@@ -13,7 +123,7 @@ export const getLogin = (req, res) => {
 export const postLogin = async (req, res) => {
     const { username, password } = req.body;
 
-    // first check if account,password exists
+    // first check db if account,password exists
     const user = await User.findOne({ username, githubLoginOnly: false });
     if (!user)
         return res.status(400).render("login", {
@@ -119,7 +229,7 @@ export const finishGithubLogin = async (req, res) => {
     const config = {
         client_id: process.env.GH_CLIENT,
         client_secret: process.env.GH_SECRET,
-        code: req.query.code,
+        code: req.query.code, // url에 부여되는 코드값
     };
     const params = new URLSearchParams(config).toString();
     const finalUrl = `${baseUrl}?${params}`;
@@ -192,7 +302,6 @@ export const finishGithubLogin = async (req, res) => {
         req.session.loggedIn = true;
         req.session.user = existsUser;
         return res.redirect("/");
-
     } else {
         return res.render("/login");
     }

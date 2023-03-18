@@ -1,16 +1,28 @@
 import express from "express";
-import { watchVideos, see, getEdit, deleteVideo, postEdit, getUpload, postUpload } from "../controllers/videoController";
+import {
+    watchVideos,
+    see,
+    getEdit,
+    deleteVideo,
+    postEdit,
+    getUpload,
+    postUpload,
+} from "../controllers/videoController";
+import { multerMiddlewareforVideo, protectorMiddleware } from "../middlewares";
 
 const videoRouter = express.Router();
 
 // /videos/watch
 // 순서조심 topdown방식이라 param이 먹히면 안되는 것들은 위로 올리자
 videoRouter.get("/watch", watchVideos);
+videoRouter
+    .route("/upload")
+    .all(protectorMiddleware)
+    .get(getUpload)
+    .post(multerMiddlewareforVideo.single("video"), postUpload);
 
-videoRouter.route("/upload").get(getUpload).post(postUpload);
-
-// 임의의 id주소로 보여져야함. 지금은 숫자로만 허용되도록 되어있음. 
-// mongodb의 아이디를 정규표현식으로 제한해보자. 
+// 임의의 id주소로 보여져야함. 지금은 숫자로만 허용되도록 되어있음.
+// mongodb의 아이디를 정규표현식으로 제한해보자.
 // mongodb의 id부여는 24byte의 hex string으로 구성되어있다.
 // 0 ~ 9, a - f 로 24개의 구성되어있는 string. [0-9a-f]{24}
 videoRouter.get("/:id([0-9a-f]{24})", see);
@@ -19,9 +31,13 @@ videoRouter.get("/:id([0-9a-f]{24})", see);
 // videoRouter.post("/:id(\\d+)/edit", postEdit);
 // videoRouter.get("/:id(\\d+)/edit", getEdit);
 // 더짧게쓰는법
-videoRouter.route("/:id([0-9a-f]{24})/edit").get(getEdit).post(postEdit);
-
-videoRouter.get("/:id([0-9a-f]{24})/delete", deleteVideo);
-
+videoRouter
+    .route("/:id([0-9a-f]{24})/edit")
+    .all(protectorMiddleware)
+    .get(getEdit)
+    .post(postEdit);
+videoRouter
+    .all(protectorMiddleware)
+    .get("/:id([0-9a-f]{24})/delete", deleteVideo);
 
 export default videoRouter;
