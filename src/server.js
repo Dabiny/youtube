@@ -53,7 +53,11 @@ app.use(localsMiddleware);
 // })
 
 // 폴더를 가지고 그 폴더를 브라우저에게 노출시키기 static 사용
+// static(폴더명): 한마디로 Express한테 사람들이 이폴더 안에 잇는 파일들을 볼 수 있게 해달라고 요청하는 것.
+// 앞에 경로는 브라우저의 URL설정, static인자안에 보여줄 폴더명넣기
 app.use("/uploads", express.static("uploads"));
+// FE폴더 
+app.use("/assets", express.static("assets"));
 app.use("/", globalRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
