@@ -1,4 +1,5 @@
 import User from "../models/User";
+import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
@@ -153,7 +154,25 @@ export const logout = (req, res) => {
     res.redirect("/");
 };
 
-export const see = (req, res) => res.send("see User");
+// profile 
+export const see = async(req, res) => {
+    const { id } = req.params;
+    // videos array
+    const user = await User.findById(id).populate("videos");
+    // console.log(user);
+    if(!user) {
+        return res.status(404).render("404", {
+            pageTitle: "User not found",
+        });
+    }
+    // mongoose.find array로 반환
+    // const videos = await Video.find({ owner: id });
+    
+    return res.render("users/profile", {
+        pageTitle: `${user.name} Profile`,
+        user,
+    })
+};
 
 export const getJoin = (req, res) =>
     res.render("join", {
@@ -206,6 +225,7 @@ export const postJoin = async (req, res) => {
     res.redirect("/login");
 };
 
+// 깃허브 링크 불러오는 함수
 export const startGithubLogin = (req, res) => {
     // "https://github.com/login/oauth/authorize?client_id=480d84064ff4926f9e90&allow_signup=false&scope=user:email"
 
@@ -293,6 +313,7 @@ export const finishGithubLogin = async (req, res) => {
                 username: userData.login ? userData.login : emailObject.email,
                 email: emailObject.email,
                 password: "",
+                // ⭐️
                 githubLoginOnly: true,
                 location: userData.location,
             });

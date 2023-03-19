@@ -9,11 +9,16 @@ const userSchema = new mongoose.Schema({
     password: { type: String },
     name: { type: String, required: true },
     location: String,
+    // Video model referance
+    videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video"}],
 });
 
 userSchema.pre("save", async function () {
-    // this.password를 5번 해싱한다.
-    this.password = await bcrypt.hash(this.password, 5);
+    // password값이 바뀌면 true
+    if(this.isModified("password")) {
+        // this.password를 5번 해싱한다.
+        this.password = await bcrypt.hash(this.password, 5);
+    }
 });
 
 const User = mongoose.model("User", userSchema);

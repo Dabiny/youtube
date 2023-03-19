@@ -20,7 +20,7 @@ html(lang="ko")
                         li 
                             a(href="/users/edit") Edit Profile
                         li 
-                            a(href="/my-profile") #{loggedInUser.username} profile
+                            a(href=`/users/${loggedInUser._id}`) #{loggedInUser.username} profile
                         li 
                             a(href="/videos/upload") Upload Video
                     li 

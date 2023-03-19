@@ -27,6 +27,8 @@ const videoSchema = new mongoose.Schema({
         views: { type: Number, default: 0, required: true },
         rating: { type: Number, default: 0, required: true },
     },
+    // ref : monggose에게 owner에 id를 저장하겠다고 알려주는 신호
+    owner: {type: mongoose.Schema.Types.ObjectId, required: true, ref: "User"},
 });
 
 // middleware 사용자화
