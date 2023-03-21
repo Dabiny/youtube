@@ -157,8 +157,17 @@ export const logout = (req, res) => {
 // profile 
 export const see = async(req, res) => {
     const { id } = req.params;
-    // videos array
-    const user = await User.findById(id).populate("videos");
+    // videos array 
+    // double populate방법
+    const user = await User.findById(id).populate({
+        // path: 가장먼저 내가 populate하고싶은거
+        path: "videos",
+        // 두번째로 populate 하고싶은거
+        populate: {
+            path: "owner",
+            model: "User",
+        }
+    });
     // console.log(user);
     if(!user) {
         return res.status(404).render("404", {
