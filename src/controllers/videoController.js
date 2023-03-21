@@ -9,7 +9,7 @@ const fakeUser = {
 export const watchVideos = async (req, res) => {
     // async/await 버전
     try {
-        const videos = await Video.find({}).sort({ createdAt: "desc" }); // asc오름차순
+        const videos = await Video.find({}).sort({ createdAt: "desc" }).populate("owner"); // asc오름차순
         //console.log(videos);
         return res.render("home", {
             pageTitle: "Home", // 변수 재정의
@@ -32,7 +32,6 @@ export const see = async (req, res) => {
     const video = await Video.findById(id).populate("owner");
     // video 오우너 찾기
     // const owner = await User.findById(video.owner);
-    console.log(video);
     // 예외처리 필수
     if (!video) {
         return res.render("404", {
@@ -107,7 +106,7 @@ export const search = async (req, res) => {
             title: {
                 $regex: new RegExp(keyword, "i"), // 검색설정 여러쿼리가있음. mongoDB참조
             },
-        });
+        }).populate("owner");
     }
     return res.render("search", {
         pageTitle: "Search",

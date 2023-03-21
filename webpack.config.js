@@ -34,6 +34,7 @@ module.exports = {
     output: {
         filename: "js/main.js",
         // 변경될 결과물 저장경로도 설정해줘야한다.
+
         // configuration.output.path: The provided value "./assets/js" is not an absolute path!
         // path.resoleve -> 절대경로 변경, Dirnmae: 말그래로 파일내임을 그대로 보여주는것.
         // __dirname:/Users/dabinkim/Documents/nomad/youtube

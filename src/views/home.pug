@@ -2,12 +2,14 @@ extends base.pug
 include mixins/videos
 
 block content 
-    h1 Home!
-    h2 Welcome my youtube video
-    ul
+    div.video_grid
         each iter in videos
             +video(iter)
+            +video(iter)
+            +video(iter)
+            +video(iter)
+            +video(iter)
+            +video(iter)
+
         else 
-            li Sorry nothing found.
-    input(placeholder="HWOW")
-    button yes
+            span.empty_message No videos found

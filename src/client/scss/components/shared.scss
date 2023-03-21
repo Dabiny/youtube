@@ -1,0 +1,17 @@
+.empty_message {
+    margin-bottom: 50px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.video_grid {
+    display: grid;
+    gap: 50px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
