@@ -1,20 +1,40 @@
 extends base.pug
 
 block content 
-    //- h3 #{video.views} #{video.views in [0, 1] ? "view" : "views"}
-    video(src="/" + video.fileUrl controls width="700" hight="400")
-    div
-        p=video.description
-        small=video.createdAt
-    div 
-        small Upload by 
-            a(href=`/users/${video.owner._id}`) #{video.owner.name}
-    //- 비디오 소유자와 로그인한 세션아이디와 같으면 수정가능 (업로드 오너가 로그인한거니까) 
-    if loggedInUser
-        if String(video.owner._id) === String(loggedInUser._id)
-            a(href=`${id}/edit`) Edit video &rarr;
-            br
-            a(href=`${video.id}/delete`) Delete video &rarr;
+    div#videoContainer
+        //- h3 #{video.views} #{video.views in [0, 1] ? "view" : "views"}
+        video(src="/" + video.fileUrl)
+        div#videoControls.videoControls
+            div.videoControls__play
+                span#play.videoControls__playBtn
+                    i.fas.fa-play
+                div.videoControls__time
+                    span#currentTime 00:00
+                    span  / 
+                    span#totalTime 00:00
+            input(type="range" step="1" value="0" min="0")#timeline.videoControls__timeline
+            div.videoControls__volume
+                input(type="range" step="0.1", value=0.5, min="0" max="1")#volume
+                span#mute
+                    i.fas.fa-volume-up
+            div
+                span#fullScreen 
+                    i.fas.fa-expand
+    //- div
+    //-     p=video.description
+    //-     small=video.createdAt
+    //- div 
+    //-     small Upload by 
+    //-         a(href=`/users/${video.owner._id}`) #{video.owner.name}
+    //- //- 비디오 소유자와 로그인한 세션아이디와 같으면 수정가능 (업로드 오너가 로그인한거니까) 
+    //- if loggedInUser
+    //-     if String(video.owner._id) === String(loggedInUser._id)
+    //-         a(href=`${id}/edit`) Edit video &rarr;
+    //-         br
+    //-         a(href=`${video.id}/delete`) Delete video &rarr;
 
 //- 앞머리 부분에 /를 넣으면 내가 어디에있는 상관없이 root + /edit으로간다. 
 //- /를 지우면 상대적으로 내가 있는 곳에서 edit으로 간다.
+
+block scripts    
+    script(src="/assets/js/videoPlayer.js")

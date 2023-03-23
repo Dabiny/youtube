@@ -13,7 +13,10 @@ const path = require("path");
 // console.log(path.resolve(__dirname, "assets", "js"));
 module.exports = {
     // 변경하고자 하는 파일 (우리가 코딩할 client 폴더)
-    entry: "./src/client/js/main",
+    entry: {
+        main: "./src/client/js/main",
+        videoPlayer: "./src/client/js/videoPlayer",
+    },
 
     // 나는 js파일에 css를 넣고싶진 않음..분리된 css파일을 만들고싶어. -> plugin
     // MiniCssExtractPlugin: 해당코드를 다른파일로 분리시키는 애임.
@@ -32,7 +35,7 @@ module.exports = {
     // webpack을 자동으로 바꿔치기 해주는 애 nodemon같은 존재
     watch: true,
     output: {
-        filename: "js/main.js",
+        filename: "js/[name].js",
         // 변경될 결과물 저장경로도 설정해줘야한다.
 
         // configuration.output.path: The provided value "./assets/js" is not an absolute path!
@@ -43,7 +46,7 @@ module.exports = {
 
         // css파일이랑 js파일 분리시키기 "js/main.js"
         path: path.resolve(__dirname, "assets"),
-        // output 폴더를 빌드하기전에 clean해준다. 
+        // output 폴더를 빌드하기전에 clean해준다.
         clean: true,
     },
     module: {
