@@ -1,7 +1,8 @@
 extends base.pug
 
 block content 
-    div#videoContainer
+    //- data 전달
+    div#videoContainer(data-id=video._id)
         //- h3 #{video.views} #{video.views in [0, 1] ? "view" : "views"}
         video(src="/" + video.fileUrl)
         div#videoControls.videoControls

@@ -11,6 +11,7 @@ import globalRouter from "./routers/globalRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import { localsMiddleware } from "./middlewares";
+import apiRouter from "./routers/apiRouter";
 
 // application 생성
 const app = express();
@@ -61,8 +62,7 @@ app.use("/assets", express.static("assets"));
 app.use("/", globalRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
-
-
+app.use("/api", apiRouter);
 
 // listen함수 init에 넣기
 app.get("/login", (req, res) => {
@@ -70,6 +70,8 @@ app.get("/login", (req, res) => {
         message: "login here"
     });
 })
+
+
 
 // 보동 localhoset로 열린다. 
 

@@ -200,3 +200,15 @@ export const postUpload = async (req, res) => {
     // here we will add a video to the videios array.
     //return res.redirect("/videos/watch");
 };
+
+export const registerView = async(req, res) => {
+    const { id } = req.params;
+    const video = await Video.findById(id);
+    if(!video) {
+        // status만 보내고싶을때 sandStatus
+        return res.sendStatus(404);
+    }
+    video.meta.views = video.meta.views + 1;
+    await video.save();  
+    return res.sendStatus(200);
+};

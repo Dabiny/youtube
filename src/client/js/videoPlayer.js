@@ -128,6 +128,10 @@ const handleFullScreen = () => {
 };
 const hideControls = () => videoControls.classList.remove("showing");
 
+/**
+ * 마우스를 움직일때는 계속 setTimeOut이 생성되어 id에 부여된다. 
+ * 마우스가 비디오에서 멈췄을때는 setTimeOut이 만료되어 className을 사라지게 만든다. 
+ */
 const handleMouseMove = () => {
     if (controlsTimeout) {
         clearTimeout(controlsTimeout);
@@ -146,6 +150,18 @@ const handleMouseLeave = () => {
     // clearTimeout(id);
 };
 
+/**
+ * 비디오가 끝났을때 조회수 올리기
+ */
+const handelEnded = async() => {
+    const { id } = videoContainer.dataset;
+    // 내가만든 api 
+    await fetch(`/api/videos/${id}/view`, {
+        method: "POST",
+    }); 
+}
+
+
 playBtn.addEventListener("click", handlePlayClick);
 mute.addEventListener("click", handleMute);
 // function에서 play, pause를 바꿔줄 수도 있지만 이벤트를 사용할 수도 있다.
@@ -155,6 +171,7 @@ mute.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadeddata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
+video.addEventListener("ended", handelEnded);
 timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullScreen);
 video.addEventListener("mousemove", handleMouseMove);
