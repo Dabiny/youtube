@@ -2,10 +2,13 @@ import multer from "multer";
 
 export const localsMiddleware = (req, res, next) => {
     // 로그인을했다면 local객체값 변경
-    if (req.session.loggedIn) {
-        res.locals.loggedIn = true;
-        res.locals.loggedInUser = req.session.user || {};
-    }
+    // if (req.session.loggedIn) {
+    //     res.locals.loggedIn = true;
+    //     res.locals.loggedInUser = req.session.user || {};
+    // }
+    res.locals.loggedIn = Boolean(req.session.loggedIn);
+    res.locals.siteName = "Wetube";
+    res.locals.loggedInUser = req.session.user || {};
     next();
 };
 
@@ -14,6 +17,7 @@ export const protectorMiddleware = (req, res, next) => {
     if (req.session.loggedIn) {
         return next();
     } else {
+        req.flash("error", "Login First");
         return res.redirect("/login");
     }
 };
@@ -23,6 +27,7 @@ export const publicOnlyMiddleware = (req, res, next) => {
     if (!req.session.loggedIn) {
         return next();
     } else {
+        req.flash("error", "Not authorized");
         return res.redirect("/");
     }
 }

@@ -18,8 +18,9 @@ const videoSchema = new mongoose.Schema({
         trim: true,
         maxLength: 80,
     },
-    fileUrl: {type: String, required: true},
-    description: { type: String, required: true, trim: true, minLength: 20 },
+    fileUrl: { type: String, required: true },
+    thumbUrl: { type: String, required: true },
+    description: { type: String, required: true, trim: true },
     // mongoose는 내가 새로운 video를 생성했을때만 실행시킬것임. (Date.now)
     createdAt: { type: Date, required: true, default: Date.now },
     hashtags: [{ type: String, trim: true }],
@@ -28,7 +29,11 @@ const videoSchema = new mongoose.Schema({
         rating: { type: Number, default: 0, required: true },
     },
     // ref : monggose에게 owner에 id를 저장하겠다고 알려주는 신호
-    owner: {type: mongoose.Schema.Types.ObjectId, required: true, ref: "User"},
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "User",
+    },
 });
 
 // middleware 사용자화
@@ -38,9 +43,7 @@ videoSchema.static("formatHashtags", function (hashtags) {
         .map((word) => (word.startsWith("#") ? word : `#${word}`));
 });
 
-
 // model 정의
-
 
 const videoModel = mongoose.model("Video", videoSchema);
 export default videoModel;

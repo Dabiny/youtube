@@ -19,7 +19,14 @@ videoRouter
     .route("/upload")
     .all(protectorMiddleware)
     .get(getUpload)
-    .post(multerMiddlewareforVideo.single("video"), postUpload);
+    // .post(multerMiddlewareforVideo.single("video"), postUpload);
+    .post(
+        multerMiddlewareforVideo.fields([
+            { name: "video", maxCount: 1 },
+            { name: "thumb", maxCount: 1 },
+        ]),
+        postUpload
+    );
 
 // 임의의 id주소로 보여져야함. 지금은 숫자로만 허용되도록 되어있음.
 // mongodb의 아이디를 정규표현식으로 제한해보자.

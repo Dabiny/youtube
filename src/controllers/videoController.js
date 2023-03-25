@@ -9,7 +9,9 @@ const fakeUser = {
 export const watchVideos = async (req, res) => {
     // async/await 버전
     try {
-        const videos = await Video.find({}).sort({ createdAt: "desc" }).populate("owner"); // asc오름차순
+        const videos = await Video.find({})
+            .sort({ createdAt: "desc" })
+            .populate("owner"); // asc오름차순
         //console.log(videos);
         return res.render("home", {
             pageTitle: "Home", // 변수 재정의
@@ -145,7 +147,8 @@ export const getUpload = (req, res) => {
 
 export const postUpload = async (req, res) => {
     // es6 정의방법
-    const { path: fileUrl } = req.file;
+    // const { path: fileUrl } = req.file; // file은 single
+    const { video, thumb } = req.files; // files은 fields
     const {
         user: { _id },
     } = req.session;
@@ -169,7 +172,7 @@ export const postUpload = async (req, res) => {
 
     // 방법 2. new안쓰고 create로 바로 db에 저장하는법.
     // 이상한값으로 에러가있을 수 있으니 try/catch로 잡아주자.
-
+    console.log(thumb);
     try {
         // #8 create는 return 해준다.
         const newVideo = await Video.create({
@@ -179,7 +182,8 @@ export const postUpload = async (req, res) => {
             // 수정할때의 form은 업로드 form과 생긴건 똑같지만 다르다.
             // 또 새러운 hashtag가 생길텐데 그거에대한 대응을 해줘야한다. (나중에 설명)
             hashtags: Video.formatHashtags(hashtags),
-            fileUrl: fileUrl,
+            fileUrl: video[0].path,
+            thumbUrl: thumb[0].filename,
             // ⭐️소유자: id
             owner: _id,
         });
@@ -201,14 +205,14 @@ export const postUpload = async (req, res) => {
     //return res.redirect("/videos/watch");
 };
 
-export const registerView = async(req, res) => {
+export const registerView = async (req, res) => {
     const { id } = req.params;
     const video = await Video.findById(id);
-    if(!video) {
+    if (!video) {
         // status만 보내고싶을때 sandStatus
         return res.sendStatus(404);
     }
     video.meta.views = video.meta.views + 1;
-    await video.save();  
+    await video.save();
     return res.sendStatus(200);
 };

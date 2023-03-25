@@ -6,6 +6,7 @@ import fetch from "node-fetch";
 export const getChangePassword = (req, res) => {
     // 비번병경 방법1
     if (req.session.user.githubLoginOnly === true) {
+        req.flash("error", "U cant change password");
         return res.redirect("/");
     }
     return res.render("users/change-password", {
@@ -67,8 +68,8 @@ export const postEditUser = async (req, res) => {
         // 파일이 만약 존재하지않으면 file: {path}를 사용할 수없다.
         file,
     } = req;
-    console.log("file", file);
-    console.log("avatar", avatarUrl);
+    // console.log("file", file);
+    // console.log("avatar", avatarUrl);
 
     // quiz
     // 만약 바꾸려는 정보가 이미있는 username, email이면 없데이트 못하도록 예외처리해저야함.
@@ -308,6 +309,7 @@ export const finishGithubLogin = async (req, res) => {
             (email) => email.primary && email.verified
         );
         if (!emailObject) {
+            req.flash("info", "Bye Bye");
             return res.redirect("/login");
         }
 

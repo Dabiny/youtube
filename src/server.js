@@ -6,6 +6,7 @@ import express from "express";
 import morgan from "morgan";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import flash from "express-flash";
 
 import globalRouter from "./routers/globalRouter";
 import userRouter from "./routers/userRouter";
@@ -20,10 +21,20 @@ const loggerMiddleware = morgan("dev");
 
 // console.log(process.cwd());
 
+
 // 미들웨어 위치 중요하다. 위에서 아래로 
 app.set("views", process.cwd() + "/src/views");
 app.set("view engine", "pug"); // pug 설정
+// ffmpg SharedArrayBuffer is not defined 오류해결 
+app.use((req, res, next) => {
+    res.header("Cross-Origin-Embedder-Policy", "require-corp");
+    res.header("Cross-Origin-Opener-Policy", "same-origin");
+    next();
+});
+
+
 app.use(loggerMiddleware);
+
 
 app.use(express.urlencoded({ extended: true }));
 // 사이트로 들어오는 모두를 기억하게 될것임. 로그인을 하지 않아도
@@ -47,6 +58,7 @@ app.use(
         }),
     })
 );
+app.use(flash());
 app.use(localsMiddleware);
 // app.get("/add-one", (req, res) => {
 //     req.session.potato += 1;
