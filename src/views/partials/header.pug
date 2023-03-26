@@ -23,7 +23,7 @@ header
                         if !loggedInUser.avatarUrl
                             span 😀
                         else
-                            if loggedInUser.githubLoginOnly
+                            if loggedInUser.avaterUrl.includes("github")
                                 img.header_avatar(src=loggedInUser.avatarUrl crossorigin="use-credentials")
                             else 
                                 img.header_avatar(src="/" + loggedInUser.avatarUrl)
