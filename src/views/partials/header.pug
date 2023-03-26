@@ -21,9 +21,9 @@ header
                 li 
                     a(href=`/users/${loggedInUser._id}`)
                         if !loggedInUser.avatarUrl
-                            span 😀
+                            span 🥹
                         else
-                            if loggedInUser.avaterUrl.includes("github")
+                            if loggedInUser.socialOnly.toString().includes("github")
                                 img.header_avatar(src=loggedInUser.avatarUrl crossorigin="use-credentials")
                             else 
                                 img.header_avatar(src="/" + loggedInUser.avatarUrl)
