@@ -12,5 +12,5 @@ import app from "./server";
 const PORT = process.env.PORT || 4000;
 
 // listen의 callback함수는 서버가시작될때 작동하는 함수다.
-const handleListening = () => console.log("Server listening on port 4000");
+const handleListening = () => console.log(`Server listening on port ${PORT}`);
 app.listen(PORT, handleListening);
