@@ -46,7 +46,7 @@ app.use(
         resave: false,
         // 세션이 새로 만들어지고 수정된 적이 없을 때 uninitialized이다.
         // 새로운세션이 있는데 수정된적으면 uninitialized -> 수정은 어디서? controller
-        saveUninitialized: false,
+        saveUninitialized: false,  
         cookie: {
             // 밀리세컨드 기준
             // maxAge: 20000,

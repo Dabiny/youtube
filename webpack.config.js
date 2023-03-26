@@ -32,10 +32,10 @@ module.exports = {
     // Set 'mode' option to 'development' or 'production'
     // mode를 설정안해주면 기본으로 webpack은 production mode로 설정할것.
     // 그렇게되면 코드들은 다 압축되고 기괴해질텐데 개발중에는 기괴하지 않았으면 좋겠음. 설정해줘야함.
-    mode: "development",
+    // mode: "development",
 
     // webpack을 자동으로 바꿔치기 해주는 애 nodemon같은 존재
-    watch: true,
+    // watch: true,
     output: {
         filename: "js/[name].js",
         // 변경될 결과물 저장경로도 설정해줘야한다.

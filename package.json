@@ -6,7 +6,11 @@
         "go": "node src/server.js",
         "dev": "babel-node src/server.js",
         "nodemon": "nodemon",
-        "assets": "webpack"
+        "assets": "webpack --mode=development --watch",
+        "build:server": "babel src -d build",
+        "start": "node build/init.js",
+        "build:assets": "webpack --mode=production",
+        "build": "npm run build:server && npm run build:assets"
     },
     "repository": {
         "type": "git",
@@ -36,7 +40,8 @@
         "regenerator-runtime": "^0.13.11"
     },
     "devDependencies": {
-        "@babel/core": "^7.21.0",
+        "@babel/cli": "^7.21.0",
+        "@babel/core": "^7.21.3",
         "@babel/node": "^7.20.7",
         "@babel/preset-env": "^7.20.2",
         "@prettier/plugin-pug": "^2.4.1",

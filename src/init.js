@@ -1,5 +1,6 @@
 // dotenv 내 앱에서 맨 위에 넣기 -> 맨위: 서버시작하는 url -> init.js
 // require("dotenv").config();
+import "regenerator-runtime";
 import "dotenv/config";
 
 import "./db";
