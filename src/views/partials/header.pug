@@ -24,6 +24,6 @@ header
                             span 😀
                         else
                             if loggedInUser.githubLoginOnly
-                                img.header_avatar(src=loggedInUser.avatarUrl)
+                                img.header_avatar(src=loggedInUser.avatarUrl crossorigin="use-credentials")
                             else 
                                 img.header_avatar(src="/" + loggedInUser.avatarUrl)

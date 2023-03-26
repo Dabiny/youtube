@@ -27,8 +27,9 @@ app.set("views", process.cwd() + "/src/views");
 app.set("view engine", "pug"); // pug 설정
 // ffmpg SharedArrayBuffer is not defined 오류해결 
 app.use((req, res, next) => {
-    res.header("Cross-Origin-Embedder-Policy", "require-corp");
+    res.header("Cross-Origin-Embedder-Policy", "credentialless");
     res.header("Cross-Origin-Opener-Policy", "same-origin");
+    res.header("cross-origin-resource-Policy", "cross-origin");
     next();
 });
 app.use(loggerMiddleware);
