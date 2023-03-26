@@ -1,5 +1,6 @@
 import User from "../models/User";
 import Video from "../models/Video";
+import Comment from "../models/Comment";
 
 const fakeUser = {
     username: "dabin",
@@ -31,7 +32,7 @@ export const see = async (req, res) => {
     const { id } = req.params;
     //mongoose.findById()로 특정데이터를 찾아보자
     // populate: owner의 id를 ref한 부분을 User데이터로 채워준다.
-    const video = await Video.findById(id).populate("owner");
+    const video = await Video.findById(id).populate("owner").populate("comments");
     // video 오우너 찾기
     // const owner = await User.findById(video.owner);
     // 예외처리 필수
@@ -215,4 +216,30 @@ export const registerView = async (req, res) => {
     video.meta.views = video.meta.views + 1;
     await video.save();
     return res.sendStatus(200);
+};
+
+export const createComment = async (req, res) => {
+    const {
+        session: { user },
+        body: { text },
+        params: { id },
+    } = req;
+
+    const video = await Video.findById(id);
+
+    if (!video) {
+        return res.sendStatus(404);
+    }
+
+    const comment = await Comment.create({
+        text: text,
+        owner: user._id,
+        video: id,
+    });
+
+    video.comments.push(comment._id);
+    video.save();
+    return res.status(201).json({
+        newCommentId: comment._id,
+    });
 };

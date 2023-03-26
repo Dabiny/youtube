@@ -34,6 +34,13 @@ const videoSchema = new mongoose.Schema({
         required: true,
         ref: "User",
     },
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: "Comment",
+        },
+    ],
 });
 
 // middleware 사용자화

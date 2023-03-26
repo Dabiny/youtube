@@ -17,6 +17,7 @@ module.exports = {
         main: "./src/client/js/main",
         videoPlayer: "./src/client/js/videoPlayer",
         recorder: "./src/client/js/recorder",
+        commentSection: "./src/client/js/commentSection",
     },
 
     // 나는 js파일에 css를 넣고싶진 않음..분리된 css파일을 만들고싶어. -> plugin

@@ -31,12 +31,11 @@ app.use((req, res, next) => {
     res.header("Cross-Origin-Opener-Policy", "same-origin");
     next();
 });
-
-
 app.use(loggerMiddleware);
-
-
 app.use(express.urlencoded({ extended: true }));
+// fetch body json형식을 서버가 알아들을수있도록 이해시키기.
+// 우리는 express에게 json을 보내고있다고 이야기해줘야함. #16.4
+app.use(express.json());
 // 사이트로 들어오는 모두를 기억하게 될것임. 로그인을 하지 않아도
 // 백엔드에서 정체불명 string의 cookie를 브라우저에게 주고있다. 
 // 정체불명의 string은 우리의 id이다.
