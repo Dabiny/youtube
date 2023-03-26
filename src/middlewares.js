@@ -1,4 +1,18 @@
 import multer from "multer";
+import multerS3 from "multer-s3";
+import aws from "aws-sdk";
+
+const s3 = new aws.S3({
+    credentials: {
+        accessKeyId: process.env.AWS_ID,
+        secretAccessKey: process.env.AWS_SECRET,
+    }
+})
+
+const multerUploader = multerS3({
+    s3: s3,
+    bucket: 'dabintube'
+})
 
 export const localsMiddleware = (req, res, next) => {
     // 로그인을했다면 local객체값 변경
@@ -41,12 +55,14 @@ export const multerMiddlewareforAvatar = multer({
     dest: "uploads/avatars/", // 업로드파일 저절로생김.. 디렉토리에
     limits: {
         fileSize: 3000000, // byte
-    }
+    },
+    storage: multerUploader
 })
 
 export const multerMiddlewareforVideo = multer({
     dest: "uploads/videos/",
     limits: {
         fileSize: 100000000,
-    }
+    },
+    storage: multerUploader
 })
