@@ -23,4 +23,7 @@ header
                         if !loggedInUser.avatarUrl
                             span 😀
                         else
-                            img(src="/" + loggedInUser.avatarUrl).header_avatar
+                            if loggedInUser.githubLoginOnly
+                                img.header_avatar(src=loggedInUser.avatarUrl)
+                            else 
+                                img.header_avatar(src="/" + loggedInUser.avatarUrl)
